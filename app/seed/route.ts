@@ -102,8 +102,19 @@ async function seedRevenue() {
 }
 
 export async function GET() {
-  return Response.json({
-    message:
-      'Uncomment this file and remove this line. You can delete this file when you are finished.',
-  });
+  try {
+    await seedUsers();
+    await seedCustomers();
+    await seedInvoices();
+    await seedRevenue();
+
+    return Response.json({ message: 'Database seeded successfully!' });
+  } catch (error) {
+    console.error('Error seeding database:', error);
+    return Response.json({ error: 'Failed to seed database' }, { status: 500 });
+  }
+  // return Response.json({
+  //   message:
+  //     'Uncomment this file and remove this line. You can delete this file when you are finished.',
+  // });
 }
